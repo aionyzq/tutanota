@@ -104,6 +104,10 @@ export function applyMigrationsForInstance<T>(decryptedInstance: T): Promise<T> 
 			contact.birthdayIso = birthdayToIsoDate(oldBirthdayToBirthday(contact.oldBirthdayDate))
 			contact.oldBirthdayDate = null
 			return update(contact).return(decryptedInstance)
+		} else if (contact.birthdayIso && (contact.oldBirthdayAggregate || contact.oldBirthdayDate)) {
+			contact.oldBirthdayAggregate = null
+			contact.oldBirthdayDate = null
+			return update(contact).return(decryptedInstance)
 		}
 	}
 	return Promise.resolve(decryptedInstance)
